@@ -2,7 +2,7 @@ import socket
 import sys
 import time
 
-HOST, PORT = "localhost", 9999
+HOST, PORT = "192.168.0.101", 9999
 #data = "x".join(sys.argv[1:])
 data = 0
 
@@ -25,9 +25,9 @@ while True:
 
     print("Sent:     %s" % data)
     print("Received: %s" % received)
-    
+
     #sock.shutdown(SHUT_RDWR)
     sock.close()
-    
+
     data += 1
     time.sleep(2)

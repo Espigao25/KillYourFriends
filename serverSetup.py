@@ -1,4 +1,4 @@
-import socketserver as ss  
+import socketserver as ss
 
 class MyTCPHandler(ss.BaseRequestHandler):
     """
@@ -15,13 +15,13 @@ class MyTCPHandler(ss.BaseRequestHandler):
         print("%s wrote:" % self.client_address[0])
         print(self.data)
         # just send back the same data, but upper-cased
-        self.request.send(self.data.upper())
-        
+        self.request.send(self.data)
+
         #self.shutdown()
-        self.close()
+        self.request.close()
 
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 9999
+    HOST, PORT = "192.168.0.106", 9999
 
     # Create the server, binding to localhost on port 9999
     server = ss.TCPServer((HOST, PORT), MyTCPHandler)
@@ -29,4 +29,3 @@ if __name__ == "__main__":
     # Activate the server; this will keep running until you
     # interrupt the program with Ctrl-C
     server.serve_forever()
-
