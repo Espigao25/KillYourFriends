@@ -1,25 +1,33 @@
 import websockets
-import random
+#import random
 import asyncio
+import time
 import queue
-import socketserver
+#import socketserver
 import kyf
 
 global session
 
-async def getNames(websocket, path):
-    name = await websocket.recv()
+async def rcvData(websocket, path):
 
-    i = 0
-    lista = []
-    for x in range(len(name)):
-        f = x
-        if name[x] == ',':
-            lista.append(name[i:f])
-            i = x+1
-    lista.append(name[i:])
-    sendtoQueue(lista)
-    #print(lista)
+    z = time.time()
+    while ((time.time() - z) < 60 ):
+        time.sleep(0.1)
+        name = await websocket.recv()
+
+        i = 0
+        lista = []
+        for x in range(len(name)):
+            f = x
+            if name[x] == ',':
+                lista.append(name[i:f])
+                i = x+1
+        lista.append(name[i:])
+
+        sendtoQueue(lista)
+        z = time.time()
+        #print(lista)
+
 
 def sendtoQueue(data):
     global session
@@ -30,7 +38,7 @@ def startTCP(mafiaGame):
     session = mafiaGame
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-    start_server = websockets.serve(getNames, '192.168.0.101', 9998)
+    start_server = websockets.serve(rcvData, '192.168.0.101', 9998)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
